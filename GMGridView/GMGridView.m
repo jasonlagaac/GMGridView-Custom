@@ -150,6 +150,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
 
 @synthesize firstPositionLoaded = _firstPositionLoaded;
 @synthesize lastPositionLoaded = _lastPositionLoaded;
+@synthesize currPage = _currPage;
 
 //////////////////////////////////////////////////////////////
 #pragma mark Constructors and destructor
@@ -1302,27 +1303,42 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
     if (self.pagingEnabled) 
     {
         CGPoint originScroll = CGPointZero;
+        CGSize pageSize = CGSizeZero;
         
-        CGSize pageSize =  CGSizeMake(self.bounds.size.width  - self.contentInset.left - self.contentInset.right, 
-                                           self.bounds.size.height - self.contentInset.top  - self.contentInset.bottom);
+        UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+        
+        
+        pageSize =  CGSizeMake(self.bounds.size.width  - self.contentInset.left - self.contentInset.right, 
+                               self.bounds.size.height - self.contentInset.top  - self.contentInset.bottom);
         
         CGFloat pageX = ceilf(point.x / pageSize.width);
         CGFloat pageY = ceilf(point.y / pageSize.height);
         
-        originScroll = CGPointMake(pageX * pageSize.width, 
-                                   pageY *pageSize.height);
-        
-        /*
-        while (originScroll.x + pageSize.width < point.x) 
+        if (UIInterfaceOrientationIsPortrait(orientation))
         {
-            originScroll.x += pageSize.width;
+            
+            NSLog(@"Portrait ------");
+            NSLog(@"Point X: %f Point Y: %f", point.x, point.y);
+            NSLog(@"Bounds X: %f Bounds Y: %f", pageSize.width, pageSize.height);
+            NSLog(@"PageX: %f", pageX);
+            originScroll = CGPointMake((self.currPage * pageSize.width), pageY *pageSize.height);
+            
+        }
+        else 
+        {
+            CGFloat pageX = ceilf(point.x / [[UIScreen mainScreen] bounds].size.width);
+            
+            NSLog(@"Landscape ------");
+            NSLog(@"Point X: %f Point Y: %f", point.x, point.y);
+            NSLog(@"Bounds X: %f Bounds Y: %f", pageSize.width, pageSize.height);
+            NSLog(@"PageX: %f", pageX);
+            self.currPage = pageX;
+            
+            originScroll = CGPointMake((self.currPage * pageSize.width), pageY *pageSize.height);
         }
         
-        while (originScroll.y + pageSize.height < point.y) 
-        {
-            originScroll.y += pageSize.height;
-        }
-        */
+        
+        
         targetRect = CGRectMake(originScroll.x, originScroll.y, pageSize.width, pageSize.height);
     }
     else 

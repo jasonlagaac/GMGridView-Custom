@@ -76,6 +76,9 @@ typedef enum
 @property (nonatomic, getter=isEditing) BOOL editing; // Default is NO - When set to YES, all gestures are disabled and delete buttons shows up on cells
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated;
 
+// Current Visible Page
+@property (nonatomic) int currPage;
+
 // Customizing Options
 @property (nonatomic, gm_weak) IBOutlet UIView *mainSuperView;        // Default is self
 @property (nonatomic) GMGridViewStyle style;                          // Default is GMGridViewStyleSwap
