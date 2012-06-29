@@ -1313,7 +1313,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
         
         CGFloat pageX = ceilf(point.x / pageSize.width);
         CGFloat pageY = ceilf(point.y / pageSize.height);
-        
+        /*
         if (UIInterfaceOrientationIsPortrait(orientation))
         {
             
@@ -1336,7 +1336,7 @@ static const UIViewAnimationOptions kDefaultAnimationOptions = UIViewAnimationOp
             
             originScroll = CGPointMake((self.currPage * pageSize.width), pageY *pageSize.height);
         }
-        
+        */
         
         
         targetRect = CGRectMake(originScroll.x, originScroll.y, pageSize.width, pageSize.height);
